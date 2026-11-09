@@ -2,7 +2,7 @@
 
 > **适用对象**：刚离校、准备进入企业实习的应届毕业生；有一点电脑基础，但 Python、Git、Docker、AI 开发都可以从零开始。
 >
-> **课程强度**：15 天 × 每天 2 小时 = 30 小时。每天都有明确产出，最后一天拿到「8 个可演示项目 + 2 个综合大项目 + GitHub 作品集 + 一页简历 + 面试话术」。
+> **课程强度**：15 天 × 每天 2 小时 = 30 小时。每天都有明确产出，最后一天拿到「8 个教学项目 + 2 个综合大项目 + GitHub 作品集 + 一页简历 + 面试话术」。
 >
 > **技术基线**：Windows 10/11 64 位、Python 3.12、VS Code（默认编辑器）、PyCharm（备用 IDE）、Git + GitHub、Docker Desktop、Kubernetes（minikube 或 Docker Desktop 自带集群）。
 >
@@ -13,6 +13,7 @@
 ## 目录
 
 - [开营准备：账号、下载、目录、学习方法](#开营准备账号下载目录学习方法)
+- [0.7 综合大项目接入计划](#07-综合大项目接入计划)
 - [第 1 天：开发环境与工具链](#第-1-天开发环境与工具链)
 - [第 2 天：Python 语法核心（上）](#第-2-天python-语法核心上)
 - [第 3 天：Python 语法核心（下）](#第-3-天python-语法核心下)
@@ -111,6 +112,8 @@ D:\dev\python-ai-15d\
 3. 每天结束必须 `git commit`，哪怕只写了一句笔记。
 4. 报错截图 + 报错原文存到 `notes\errors.md`，这是你以后的面试素材。
 
+> 本仓库配套的两个综合大项目在 `examples/01-jd-taobao-spider` 与 `examples/02-ecommerce-platform`，可作为 P4/P7 的升级版；它们不属于上面的每日练习目录。
+
 ### 0.5 每日 2 小时固定节奏
 
 | 时间段 | 时长 | 做什么 |
@@ -137,23 +140,54 @@ D:\dev\python-ai-15d\
 | 7 | AI 开发基础 | LLM API、流式、Prompt | 命令行 AI 助手 | P1 |
 | 8 | RAG 知识库 | 文档解析、Embedding、向量检索 | 个人知识库问答 | P2 |
 | 9 | 数据分析 | pandas、Streamlit、AI 洞察 | 数据报告生成器 | P3 |
-| 10 | 采集与摘要 | httpx、解析、定时任务、合规 | 网页摘要监控 | P4 |
+| 10 | 采集与摘要 + 大项目 A | httpx、适配器、解析、限速、robots、去重 | 网页摘要监控 + 大项目 A 起步 | P4 / A |
 | 11 | 智能客服 | 多轮会话、知识库、工单 | 客服机器人 | P5 |
 | 12 | 办公自动化 | Excel/Word/PDF 批处理 | 办公助手 | P6 |
 | 13 | Docker + K8s | 镜像、Compose、Pod、Service、探针 | 项目上线 | — |
-| 14 | 全栈综合 + CI/CD | FastAPI、JWT、GitHub Actions | AI SaaS | P7 |
+| 14 | 全栈综合 + 大项目 B + CI/CD | FastAPI、JWT、SQLModel、CSRF、Docker | AI SaaS + 电商平台 | P7 / B |
 | 15 | 简历与面试 | STAR、术语、模拟面试 | 简历 + 面试稿 | P8 |
 
-### 0.7 最终交付物（毕业标准）
+> **综合大项目 A/B**：`examples/01-jd-taobao-spider`（采集）与 `examples/02-ecommerce-platform`（电商）。Day 10 先完成 P4 最小版，再用 A 升级；Day 14 先完成 P7 最小版，再用 B 做完整闭环。时间紧时至少跑通一个。
 
-- [ ] 8 个项目全部能本地运行，其中至少 5 个能 Docker 运行，至少 3 个能部署到 K8s。
-- [ ] GitHub 上有 8 个公开仓库，每个都有 README、依赖文件、`.gitignore`、至少 10 次有意义的 commit。
-- [ ] 一页中文简历（PDF），包含 2–3 个 AI 项目，所有数字可解释。
+### 0.7 综合大项目接入计划
+
+本仓库配套两个综合大项目，作为 15 天计划的「升级交付」，与原有 P4/P7 对应但不重复：
+
+| 编号 | 项目 | 对应教程 | 技术栈 | 核心产出 |
+|---|---|---|---|---|
+| 大项目 A | [`examples/01-jd-taobao-spider`](examples/01-jd-taobao-spider) | 第 10 天 P4 | httpx、BeautifulSoup、SQLite、pytest | 京东/淘宝适配器、重试限速、robots、去重、CSV/JSON 导出、离线样例 |
+| 大项目 B | [`examples/02-ecommerce-platform`](examples/02-ecommerce-platform) | 第 14 天 P7 | FastAPI、SQLModel、Jinja2、Docker | 用户/商品/购物车/订单/评价/后台、CSRF、事务扣库存、pytest、Compose |
+
+**怎么排进 15 天：**
+
+| 时间 | 任务 | 验收 |
+|---|---|---|
+| Day 10 完成 P4 后 | 阅读大项目 A 的 `README`、`docs/03`，跑 `python main.py` 和 `pytest -q` | 离线入库 6 条，6 个测试通过 |
+| Day 10 晚 / 周末机动 | 用大项目 A 替换或扩展 P4：新增一个站点或导出格式 | 新增适配器有 fixture 和测试 |
+| Day 14 完成 P7 后 | 阅读大项目 B 的 `README`、`docs/01`、`docs/02`，先 `copy .env.example .env` 并设置 `SECRET_KEY`，再跑 `pytest -q` 和 `docker compose up -d` | 7 个测试通过，浏览器能注册/加购/下单/进后台 |
+| Day 15 | 选 A 或 B 作为简历主项目，按 STAR 写 6–8 行 | 能讲清「背景—方案—难点—结果」 |
+
+**文档索引：**
+
+- 部署：[`docs/01-项目部署环境过程-Docker.md`](docs/01-项目部署环境过程-Docker.md)
+- 编译调试：[`docs/02-本地项目编译与调试步骤.md`](docs/02-本地项目编译与调试步骤.md)
+- 结构与接口：[`docs/03-项目结构与AI开发快速定位指南.md`](docs/03-项目结构与AI开发快速定位指南.md)
+- 闭环拓展：[`docs/04-两个示例项目拓展计划.md`](docs/04-两个示例项目拓展计划.md)
+- 业务流程图：[`docs/05-业务与系统联合流程图.md`](docs/05-业务与系统联合流程图.md)
+
+> 大项目 A/B 是选做升级，不挤占 P1–P8 主线；时间紧时优先把 **大项目 B（电商平台）** 跑通并部署，它最能体现全栈能力；采集项目 A 可以只读代码和跑离线样例。采集项目仅用于学习与授权数据，务必遵守 `robots.txt` 与目标站点条款。
+
+### 0.8 最终交付物（毕业标准）
+
+- [ ] 8 个教学项目 + 2 个综合大项目全部能本地运行，其中至少 5 个教学项目和 1 个综合大项目能 Docker 运行，至少 3 个能部署到 K8s。
+- [ ] GitHub 上有 8 个教学项目仓库，以及 1 个包含两个综合大项目的仓库；每个都有 README、依赖文件、`.gitignore`、至少 10 次有意义的 commit。
+- [ ] 一页中文简历（PDF），包含 2–3 个项目（至少 1 个 AI 项目），所有数字可解释。
+- [ ] 综合大项目 A/B 至少一个能完整演示：采集离线跑通，或电商平台 Docker 跑通并完成下单。
 - [ ] 能脱稿讲清一个项目的「背景—方案—难点—结果—复盘」5 分钟。
 - [ ] 能回答 60 个面试术语中的至少 45 个。
 - [ ] 完成 1 次 30 分钟模拟面试并录音复盘。
 
-### 0.8 评分标准（每天自评 1–5 分）
+### 0.9 评分标准（每天自评 1–5 分）
 
 | 维度 | 权重 | 5 分标准 |
 |---|---|---|
@@ -4397,6 +4431,8 @@ kubectl port-forward svc/data-report 8501:80
 > **今日目标**：掌握 HTTP 请求、HTML 解析、去重、SQLite 存储、定时任务；了解采集的法律与礼貌边界。
 >
 > **今日产出**：`p4-web-digest`，每天定时抓取指定页面，生成 AI 摘要日报，Docker 和 K8s CronJob 可运行。
+>
+> **综合大项目 A（仓库示例）**：`examples/01-jd-taobao-spider` 是 P4 的升级版，覆盖京东/淘宝适配器、重试限速、robots、SQLite 去重、CSV/JSON 导出、离线样例与 pytest。今天先跑通 P4 最小版；时间允许就用大项目 A 替换或扩展。详见附录 G 和 `docs/03`。
 
 ### 10.1 时间安排
 
@@ -4882,6 +4918,26 @@ kubectl delete job web-digest-manual
 3. SQLite 唯一约束如何防止重复？
 4. CronJob 的 `concurrencyPolicy: Forbid` 解决什么问题？
 5. 抓取内容直接商用有什么风险？
+
+### 10.12 升级任务：综合大项目 A（选做）
+
+完成 P4 后，用仓库的大项目 A 做升级：
+
+```powershell
+cd examples/01-jd-taobao-spider
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python main.py          # 离线演示：京东 + 淘宝
+pytest -q               # 6 个测试
+```
+
+验收：
+
+- [ ] 离线运行一次，京东/淘宝各入库 3 条（共 6 条）。
+- [ ] 重复运行 `inserted=0`，说明去重生效。
+- [ ] 能说明适配器、重试、限速、robots、唯一键分别解决什么问题。
+- [ ] 选做：新增一个站点适配器，补 fixture 和测试。
 
 ---
 
@@ -6428,6 +6484,8 @@ get pods → describe pod → logs → exec sh → get events → get endpoints 
 > **今日目标**：把前面的能力组合成一个「有用户、有权限、有额度、有数据库、有前端、有部署」的完整应用；跑通 GitHub Actions。
 >
 > **今日产出**：`p7-ai-saas`，FastAPI + SQLModel + JWT + Chroma + Streamlit，Docker Compose 可一键启动，K8s 可部署，CI 自动测试与构建镜像。
+>
+> **综合大项目 B（仓库示例）**：`examples/02-ecommerce-platform` 是完整电商闭环（用户/商品/购物车/订单/评价/后台/CSRF/事务/测试/Docker），可作为 P7 的替代或扩展交付。详见附录 H 和 `docs/01`、`docs/02`、`docs/04`。
 
 ### 14.1 时间安排
 
@@ -7490,11 +7548,35 @@ jobs:
 6. CI 和 CD 的区别？
 7. 镜像 tag 为什么用 commit sha 而不是只用 latest？
 
+### 14.13 升级任务：综合大项目 B（选做）
+
+完成 P7 后，用仓库的大项目 B 做完整电商闭环：
+
+```powershell
+cd examples/02-ecommerce-platform
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+pytest -q
+uvicorn app.main:app --reload
+```
+
+浏览器打开 http://127.0.0.1:8000 ，用 `admin@example.com / admin123` 和 `demo@example.com / demo123` 验证。
+
+> Docker 部署前先 `copy .env.example .env` 并设置 `SECRET_KEY`（生成命令：`python -c "import secrets; print(secrets.token_urlsafe(48))"`），再执行 `docker compose up -d --build`。
+
+验收：
+
+- [ ] `pytest -q` 通过（7 个测试）。
+- [ ] 注册/登录/加购/下单/查看订单/进入后台全流程可用。
+- [ ] 下单后库存正确扣减，订单归属校验生效。
+- [ ] Docker：`docker compose up -d --build` 成功，`/api/health` 返回 ok。
+
 ---
 
 ## 第 15 天：简历、面试与入职
 
-> **今日目标**：把 8 个项目变成 2–3 段能打的简历经历；掌握 60 个术语；完成 3 轮模拟面试；做出第 8 个项目（AI 简历优化 + 模拟面试器）。
+> **今日目标**：把 8 个教学项目 + 2 个综合大项目变成 2–3 段能打的简历经历；掌握 60 个术语；完成 3 轮模拟面试；做出第 8 个项目（AI 简历优化 + 模拟面试器）。
 >
 > **今日产出**：一页 PDF 简历、项目讲解稿、面试问答稿、P8 项目。
 
@@ -7531,15 +7613,16 @@ jobs:
 
 ### 15.3 项目怎么选
 
-8 个项目不必全写，选 3 个，形成能力组合：
+10 个项目不必全写，选 3 个，形成能力组合：
 
 | 组合 | 项目 | 展示能力 |
 |---|---|---|
 | 推荐组合 A | P2 知识库 RAG + P7 全栈 SaaS + P5 客服 | 后端 + AI + 部署 + 业务理解 |
 | 推荐组合 B | P3 数据分析 + P6 办公自动化 + P7 | 数据 + 自动化 + 全栈 |
 | 推荐组合 C | P1 CLI + P4 采集 + P7 | 工具 + 采集 + 平台 |
+| 推荐组合 D | 大项目 A 采集 + 大项目 B 电商 + P2 RAG | 数据闭环 + 全栈 + AI |
 
-写法：**一个主项目详细写（6–8 行），两个次项目各 3–4 行**。不要 8 个项目每个一行，显得像教程复刻。
+写法：**一个主项目详细写（6–8 行），两个次项目各 3–4 行**。不要 10 个项目每个一行，显得像教程复刻。
 
 ### 15.4 STAR 与量化
 
@@ -7755,7 +7838,7 @@ AI：OpenAI 兼容 API、Prompt Engineering、RAG、Embedding
 **你**（1 分钟）：
 
 ```text
-面试官您好，我是 XXX，XX 大学 XX 专业 2026 届毕业生。过去两周我系统学习了 Python 后端和 AI 应用开发，完成了 8 个项目，其中三个比较有代表性：一个基于 RAG 的知识库问答、一个 FastAPI + JWT 的 AI 文档问答 SaaS、一个智能客服机器人。我熟悉 FastAPI、SQLite、Docker、Kubernetes 和 GitHub Actions，能给项目写测试和部署文档。我希望找一份 Python 后端/AI 应用开发的实习，能参与真实业务，从写接口、修 bug、补测试做起。谢谢。
+面试官您好，我是 XXX，XX 大学 XX 专业 2026 届毕业生。过去两周我系统学习了 Python 后端和 AI 应用开发，完成了 8 个教学项目和 2 个综合大项目，其中三个比较有代表性：一个基于 RAG 的知识库问答、一个 FastAPI + JWT 的 AI 文档问答 SaaS、一个智能客服机器人；另外把采集和电商两个大项目做成了一个从数据到交易的闭环。我熟悉 FastAPI、SQLite、Docker、Kubernetes 和 GitHub Actions，能给项目写测试和部署文档。我希望找一份 Python 后端/AI 应用开发的实习，能参与真实业务，从写接口、修 bug、补测试做起。谢谢。
 ```
 
 **HR**：为什么选择我们公司/这个岗位？
@@ -8407,12 +8490,14 @@ pytest -q 通过
 | 7 | P1 CLI 助手 |  |  |  |
 | 8 | P2 RAG 知识库 |  |  |  |
 | 9 | P3 数据报告 |  |  |  |
-| 10 | P4 采集摘要 |  |  |  |
+| 10 | P4 采集摘要 + 大项目 A |  |  |  |
 | 11 | P5 智能客服 |  |  |  |
 | 12 | P6 办公自动化 |  |  |  |
 | 13 | Docker + K8s |  |  |  |
-| 14 | P7 全栈 SaaS |  |  |  |
+| 14 | P7 全栈 SaaS + 大项目 B |  |  |  |
 | 15 | 简历与面试 |  |  |  |
+
+> 备注：大项目 A/B 与 P4/P7 同一天打卡即可；时间紧时只做其中一个，另一个至少读代码并跑离线/测试。
 
 ### 附录 F：安全与合规清单
 
@@ -8433,7 +8518,7 @@ pytest -q 通过
 
 ### 附录 G：大项目一（京东、淘宝商品采集）
 
-> **定位**：把第 10 天的采集知识扩成一个可交付的工程：统一模型 + 站点适配器 + 重试限速 + robots 合规 + SQLite 去重 + CSV/JSON 导出 + 离线样例 + pytest。
+> **定位**：对应第 10 天的 P4，把采集知识扩成一个可交付的工程：统一模型 + 站点适配器 + 重试限速 + robots 合规 + SQLite 去重 + CSV/JSON 导出 + 离线样例 + pytest。
 >
 > **源码**：[`examples/01-jd-taobao-spider`](examples/01-jd-taobao-spider)
 
@@ -8546,7 +8631,7 @@ pytest -q
 
 ### 附录 H：大项目二（电商平台全栈开发）
 
-> **定位**：把第 7–14 天的 FastAPI、数据库、认证、前端、测试、Docker 串成一个可运行的电商闭环。
+> **定位**：对应第 14 天的 P7，把 FastAPI、数据库、认证、前端、测试、Docker 串成一个可运行的电商闭环。
 >
 > **源码**：[`examples/02-ecommerce-platform`](examples/02-ecommerce-platform)
 
@@ -8702,7 +8787,7 @@ pytest -q
 
 ---
 
-> **结课标准**：8 个项目 + 2 个综合大项目可运行、GitHub 可展示、简历可投递、能完成 30 分钟模拟面试。
+> **结课标准**：8 个教学项目 + 2 个综合大项目可运行、GitHub 可展示、简历可投递、能完成 30 分钟模拟面试。
 >
 > **下一步**：把 P7 部署到一台云服务器，绑定域名和 HTTPS，写一篇技术博客。真实上线经历，比再多教程都值钱。
 
