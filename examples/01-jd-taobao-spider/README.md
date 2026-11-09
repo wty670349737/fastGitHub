@@ -62,6 +62,18 @@ pytest -q
 
 真实模式下去掉 `--offline` 即可，但请先阅读上面的合规声明，并把 `SPIDER_DELAY_MIN` 调到 1 秒以上。
 
+## Docker 运行
+
+```powershell
+copy .env.example .env
+docker compose up --build
+# 查看结果
+docker compose run --rm spider stats
+```
+
+镜像基于 `python:3.12-slim`，以非 root 用户运行，数据保存在命名卷 `spider-data`。
+详细步骤见仓库根目录 [`docs/01-项目部署环境过程-Docker.md`](../../docs/01-项目部署环境过程-Docker.md)。
+
 ## 运行效果（离线演示）
 
 ```text

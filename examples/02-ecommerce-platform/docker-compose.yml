@@ -1,5 +1,7 @@
 services:
   web:
+    # 显式镜像名，便于部署文档、回滚和镜像清理
+    image: pyshop-web:1.0.0
     build: .
     ports:
       - "8000:8000"

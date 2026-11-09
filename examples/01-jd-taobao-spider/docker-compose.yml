@@ -1,0 +1,19 @@
+services:
+  spider:
+    # 显式镜像名，便于部署文档、回滚和镜像清理
+    image: jd-taobao-spider:1.0.0
+    build: .
+    env_file:
+      - .env
+    environment:
+      # 容器内数据库放到命名卷，避免容器重建丢数据
+      SPIDER_DB: /app/data/products.db
+      # 默认离线，防止容器误抓真实站点
+      SPIDER_OFFLINE: "1"
+    volumes:
+      - spider-data:/app/data
+    # 覆盖 ENTRYPOINT 之后的参数：一次采集京东 + 淘宝（离线样例）
+    command: ["crawl", "--site", "all", "--keyword", "手机", "--pages", "1", "--offline"]
+
+volumes:
+  spider-data:

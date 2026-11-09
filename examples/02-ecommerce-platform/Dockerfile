@@ -7,7 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 支持通过 --build-arg PIP_INDEX_URL=... 使用内网或国内 PyPI 镜像
+ARG PIP_INDEX_URL
+RUN pip install --no-cache-dir -r requirements.txt ${PIP_INDEX_URL:+-i $PIP_INDEX_URL}
 
 COPY app ./app
 RUN mkdir -p /app/data \
