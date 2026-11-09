@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>购物车</h1>
+
+{% if detail %}
+<table class="table">
+  <thead>
+    <tr><th>商品</th><th>单价</th><th>数量</th><th>小计</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for line in detail %}
+    <tr>
+      <td><a href="/product/{{ line.product.id }}">{{ line.product.name }}</a></td>
+      <td>{{ format_price(line.product.price) }}</td>
+      <td>
+        <form action="/cart/update" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <input type="hidden" name="item_id" value="{{ line.item.id }}" />
+          <input type="number" name="quantity" value="{{ line.item.quantity }}" min="0" max="{{ line.product.stock }}" style="width: 70px" />
+          <button type="submit">更新</button>
+        </form>
+      </td>
+      <td>{{ format_price(line.subtotal) }}</td>
+      <td>
+        <form action="/cart/remove" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <input type="hidden" name="item_id" value="{{ line.item.id }}" />
+          <button class="danger" type="submit">删除</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="checkout">
+  <p class="total">合计：<strong>{{ format_price(total) }}</strong></p>
+  <form action="/checkout" method="post" class="checkout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <input name="address" placeholder="收货地址" required />
+    <button type="submit">提交订单</button>
+  </form>
+</div>
+{% else %}
+<p class="empty">购物车还是空的，去 <a href="/">逛逛</a>。</p>
+{% endif %}
+{% endblock %}

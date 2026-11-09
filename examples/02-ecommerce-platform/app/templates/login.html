@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}登录 · {{ shop_name }}{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>登录</h1>
+  <form action="/login" method="post" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <input type="hidden" name="next" value="{{ next|default('/') }}" />
+    <label>邮箱<input type="email" name="email" value="{{ email|default('') }}" required /></label>
+    <label>密码<input type="password" name="password" required /></label>
+    <button type="submit">登录</button>
+  </form>
+  <p class="muted">还没有账号？<a href="/register">立即注册</a></p>
+  <p class="muted">演示账号：demo@example.com / demo123<br />管理员：admin@example.com / admin123</p>
+</div>
+{% endblock %}

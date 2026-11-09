@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}{{ shop_name }}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="/">{{ shop_name }}</a>
+    <form class="search" action="/" method="get">
+      <input name="q" value="{{ q|default('') }}" placeholder="搜索商品" />
+      <button type="submit">搜索</button>
+    </form>
+    <nav class="links">
+      <a href="/cart">购物车</a>
+      <a href="/orders">我的订单</a>
+      {% if current_user %}
+        <span class="user">{{ current_user.name }}</span>
+        {% if current_user.is_admin %}<a href="/admin">后台</a>{% endif %}
+        <form action="/logout" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <button class="link" type="submit">退出</button>
+        </form>
+      {% else %}
+        <a href="/login">登录</a>
+        <a href="/register">注册</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  {% if flash %}<div class="flash">{{ flash }}</div>{% endif %}
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">PyShop 教学演示 · 非真实交易</footer>
+</body>
+</html>

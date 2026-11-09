@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} · {{ shop_name }}{% endblock %}
+{% block content %}
+<a class="back" href="/">← 返回列表</a>
+
+<div class="detail">
+  <div class="detail-thumb">{{ product.name[:1] }}</div>
+  <div class="detail-info">
+    <h1>{{ product.name }}</h1>
+    {% if category %}<p class="muted">分类：{{ category.name }}</p>{% endif %}
+    <p class="price big">{{ format_price(product.price) }}</p>
+    <p class="muted">库存：{{ product.stock }}</p>
+    <p>{{ product.description }}</p>
+
+    <form action="/cart/add" method="post" class="buy">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+      <input type="hidden" name="product_id" value="{{ product.id }}" />
+      <label>数量
+        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" />
+      </label>
+      <button type="submit" {% if product.stock <= 0 %}disabled{% endif %}>加入购物车</button>
+    </form>
+  </div>
+</div>
+
+<section class="reviews">
+  <h2>用户评价（{{ reviews|length }}）</h2>
+
+  {% if current_user %}
+  <form action="/product/{{ product.id }}/review" method="post" class="review-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <label>评分
+      <select name="rating">
+        {% for i in [5, 4, 3, 2, 1] %}<option value="{{ i }}">{{ i }} 星</option>{% endfor %}
+      </select>
+    </label>
+    <textarea name="comment" rows="2" placeholder="说说你的使用感受"></textarea>
+    <button type="submit">提交评价</button>
+  </form>
+  {% else %}
+  <p class="muted"><a href="/login?next=/product/{{ product.id }}">登录</a> 后可评价。</p>
+  {% endif %}
+
+  <ul class="review-list">
+    {% for r in reviews %}
+    <li><strong>{{ '★' * r.rating }}</strong> {{ r.comment }}</li>
+    {% else %}
+    <li class="muted">还没有评价。</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

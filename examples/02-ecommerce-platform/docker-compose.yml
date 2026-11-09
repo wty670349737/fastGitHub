@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # 容器内用绝对路径，数据放在命名卷里
+      DATABASE_URL: sqlite:////app/data/shop.db
+    volumes:
+      - shop-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  shop-data:

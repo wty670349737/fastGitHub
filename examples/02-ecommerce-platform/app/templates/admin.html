@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}后台 · {{ shop_name }}{% endblock %}
+{% block content %}
+<h1>后台管理</h1>
+
+<div class="stats">
+  <div class="stat"><span>商品总数</span><strong>{{ stats.products }}</strong></div>
+  <div class="stat"><span>在售商品</span><strong>{{ stats.active_products }}</strong></div>
+  <div class="stat"><span>订单总数</span><strong>{{ stats.orders }}</strong></div>
+  <div class="stat"><span>用户总数</span><strong>{{ stats.users }}</strong></div>
+</div>
+
+<p><a class="button" href="/admin/products">管理商品</a> <a class="button" href="/admin/products/new">新增商品</a></p>
+
+<h2>最近订单</h2>
+<table class="table">
+  <thead>
+    <tr><th>订单号</th><th>用户</th><th>金额</th><th>状态</th><th>修改状态</th></tr>
+  </thead>
+  <tbody>
+    {% for o in recent_orders %}
+    <tr>
+      <td>#{{ o.id }}</td>
+      <td>{{ o.user_id }}</td>
+      <td>{{ format_price(o.total) }}</td>
+      <td><span class="badge">{{ o.status }}</span></td>
+      <td>
+        <form action="/admin/orders/{{ o.id }}/status" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <select name="status">
+            {% for s in statuses %}
+            <option value="{{ s }}" {% if s == o.status %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit">保存</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="muted">还没有订单。</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

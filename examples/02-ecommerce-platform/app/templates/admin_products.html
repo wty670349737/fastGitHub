@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}商品管理 · {{ shop_name }}{% endblock %}
+{% block content %}
+<a class="back" href="/admin">← 返回后台</a>
+<h1>商品管理</h1>
+<p><a class="button" href="/admin/products/new">新增商品</a></p>
+
+<table class="table">
+  <thead>
+    <tr><th>ID</th><th>名称</th><th>价格</th><th>库存</th><th>状态</th><th>操作</th></tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ format_price(p.price) }}</td>
+      <td>{{ p.stock }}</td>
+      <td>{{ '在售' if p.active else '已下架' }}</td>
+      <td class="actions">
+        <a href="/admin/products/{{ p.id }}/edit">编辑</a>
+        <a href="/api/products/{{ p.id }}/pitch" target="_blank" rel="noopener">AI 文案</a>
+        <form action="/admin/products/{{ p.id }}/delete" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <button class="danger" type="submit">下架</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="muted">还没有商品。</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

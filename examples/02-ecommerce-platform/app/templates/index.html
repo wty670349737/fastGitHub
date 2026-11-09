@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>精选好物</h1>
+  <p>共 {{ total }} 件商品</p>
+</section>
+
+<div class="chips">
+  <a class="{{ 'active' if not category else '' }}" href="/">全部</a>
+  {% for c in categories %}
+    <a class="{{ 'active' if category == c.slug else '' }}" href="/?category={{ c.slug }}">{{ c.name }}</a>
+  {% endfor %}
+</div>
+
+<div class="grid">
+  {% for p in products %}
+  <a class="card" href="/product/{{ p.id }}">
+    <div class="thumb">{{ p.name[:1] }}</div>
+    <div class="card-body">
+      <h3>{{ p.name }}</h3>
+      <p class="desc">{{ p.description[:48] }}</p>
+      <div class="row">
+        <span class="price">{{ format_price(p.price) }}</span>
+        <span class="stock">库存 {{ p.stock }}</span>
+      </div>
+    </div>
+  </a>
+  {% else %}
+  <p class="empty">没有找到商品。</p>
+  {% endfor %}
+</div>
+
+{% if pages > 1 %}
+<div class="pager">
+  {% for i in range(1, pages + 1) %}
+    <a class="{{ 'active' if i == page else '' }}" href="/?q={{ q }}&category={{ category }}&page={{ i }}">{{ i }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

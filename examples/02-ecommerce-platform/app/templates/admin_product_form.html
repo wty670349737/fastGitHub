@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ '编辑商品' if product else '新增商品' }} · {{ shop_name }}{% endblock %}
+{% block content %}
+<a class="back" href="/admin/products">← 返回商品列表</a>
+<h1>{{ '编辑商品' if product else '新增商品' }}</h1>
+
+<form action="{{ '/admin/products/' ~ product.id if product else '/admin/products' }}" method="post" class="stack form-wide">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+
+  <label>商品名称
+    <input type="text" name="name" value="{{ product.name if product else '' }}" required />
+  </label>
+
+  <label>分类
+    <select name="category_id">
+      <option value="">未分类</option>
+      {% for c in categories %}
+      <option value="{{ c.id }}" {% if product and product.category_id == c.id %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>价格
+    <input type="number" name="price" step="0.01" min="0" value="{{ product.price if product else '0' }}" required />
+  </label>
+
+  <label>库存
+    <input type="number" name="stock" min="0" value="{{ product.stock if product else '0' }}" required />
+  </label>
+
+  <label>描述
+    <textarea name="description" rows="4">{{ product.description if product else '' }}</textarea>
+  </label>
+
+  <label class="row-check">
+    <input type="checkbox" name="active" value="true" {% if not product or product.active %}checked{% endif %} />
+    上架销售
+  </label>
+
+  <button type="submit">保存</button>
+</form>
+{% endblock %}
