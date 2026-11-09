@@ -115,7 +115,7 @@
 
 - 只有用户明确要求才 `commit` / `push`。
 - 提交前检查 `git status`、`git diff`，只暂存预期文件；排除 `.env`、`.venv`、`data/`、`__pycache__`。
-- 遵循 [`提交规范.txt`](提交规范.txt)：
+- 严格遵循强制规则 [`.kilo/rules/git-commit.md`](.kilo/rules/git-commit.md)（与 [`提交规范.txt`](提交规范.txt) 一致）：
   - 格式：`<类型>(<范围>): <简短描述>`
   - 类型：`feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `chore` / `ci` / `revert`
   - 简短描述用中文，不超过 50 字，不以句号结尾
@@ -167,4 +167,4 @@ docker compose up -d --build
 - [ ] 新增/修改测试已补齐
 - [ ] 无密钥、`.env`、数据库、缓存、大文件
 - [ ] `.env.example`、README/docs 已同步
-- [ ] 提交信息符合 `提交规范.txt`
+- [ ] 提交信息符合 `.kilo/rules/git-commit.md`（强制规则）
